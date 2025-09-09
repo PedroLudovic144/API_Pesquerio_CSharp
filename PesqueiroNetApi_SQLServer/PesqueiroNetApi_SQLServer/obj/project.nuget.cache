@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "85S/hLPF8d8=",
+  "dgSpecHash": "bIfg2kqfN6I=",
   "success": true,
-  "projectFilePath": "C:\\Users\\pedro\\Downloads\\PesqueiroNetApi_SQLServer\\PesqueiroNetApi_SQLServer\\PesqueiroNetApi.csproj",
+  "projectFilePath": "C:\\Users\\pedro\\API_Pesquerio_CSharp\\PesqueiroNetApi_SQLServer\\PesqueiroNetApi_SQLServer\\PesqueiroNetApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pedro\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\pedro\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

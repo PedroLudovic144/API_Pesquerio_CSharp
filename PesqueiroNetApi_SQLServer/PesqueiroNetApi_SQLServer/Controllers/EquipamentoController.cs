@@ -42,12 +42,30 @@ namespace PesqueiroNetApi.Controllers
         public async Task<IActionResult> Update(int id, [FromBody] Equipamento equipamento)
         {
             var existing = await _db.Equipamentos.FindAsync(id);
-            if (existing == null) return NotFound();
+            if (existing == null) 
+                return NotFound("Equipamento não encontrado.");
+
+            // Atualiza apenas os campos enviados
             existing.NomeEquipamento = equipamento.NomeEquipamento ?? existing.NomeEquipamento;
-            existing.EquipamentoEmUso = equipamento.EquipamentoEmUso;
-            existing.QuantidadeEquipamento = equipamento.QuantidadeEquipamento;
+            existing.QuantidadeEquipamento = equipamento.QuantidadeEquipamento != 0 
+                ? equipamento.QuantidadeEquipamento 
+                : existing.QuantidadeEquipamento;
+
+            // Atualiza o status apenas se veio no body
+            if (Enum.IsDefined(typeof(StatusEquipamento), equipamento.Status))
+            {
+                existing.Status = equipamento.Status;
+            }
+
             await _db.SaveChangesAsync();
-            return NoContent();
+            return Ok(new 
+            {
+                Mensagem = "Equipamento atualizado com sucesso!",
+                existing.IdEquipamentos,
+                existing.NomeEquipamento,
+                existing.QuantidadeEquipamento,
+                Status = existing.Status.ToString()
+            });
         }
 
         [HttpDelete("{id:int}")]
@@ -60,5 +78,25 @@ namespace PesqueiroNetApi.Controllers
             await _db.SaveChangesAsync();
             return NoContent();
         }
+        // PATCH api/equipamento/{id}/status
+        [HttpPatch("{id:int}/status")]
+        [Authorize(Roles = "Funcionario")]
+        public async Task<IActionResult> AlterarStatus(int id, [FromBody] StatusEquipamento novoStatus)
+        {
+            var equipamento = await _db.Equipamentos.FindAsync(id);
+            if (equipamento == null) return NotFound("Equipamento não encontrado.");
+
+            equipamento.Status = novoStatus;
+            await _db.SaveChangesAsync();
+
+            return Ok(new 
+            { 
+                Mensagem = "Status atualizado com sucesso!", 
+                equipamento.IdEquipamentos, 
+                equipamento.NomeEquipamento, 
+                Status = equipamento.Status.ToString() 
+            });
+        }
+
     }
 }

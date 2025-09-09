@@ -4,7 +4,7 @@ namespace PesqueiroNetApi.Entities
     {
         public int IdEquipamentos { get; set; }
         public string? NomeEquipamento { get; set; }
-        public bool EquipamentoEmUso { get; set; }
+        public StatusEquipamento Status { get; set; } = StatusEquipamento.Disponivel;
         public int QuantidadeEquipamento { get; set; }
 
         public ICollection<Gerencia>? Gerencias { get; set; }
