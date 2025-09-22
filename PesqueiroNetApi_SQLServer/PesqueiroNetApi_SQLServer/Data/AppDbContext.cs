@@ -38,7 +38,7 @@ namespace PesqueiroNetApi.Data
             modelBuilder.Entity<Equipamento>().HasKey(e => e.IdEquipamentos);
             modelBuilder.Entity<Aluguel>().HasKey(a => a.IdAluguel);
             modelBuilder.Entity<Compra>().HasKey(c => c.IdCompra);
-            modelBuilder.Entity<Produto>().HasKey(p => p.IdProduto); 
+            modelBuilder.Entity<Produto>().HasKey(p => p.IdProduto);
             modelBuilder.Entity<PeixeCapturado>().HasKey(p => p.IdPeixeCapturado);
             modelBuilder.Entity<Lago>().HasKey(l => l.IdLago);
             modelBuilder.Entity<Especie>().HasKey(e => e.IdEspecie);
@@ -66,6 +66,10 @@ namespace PesqueiroNetApi.Data
 
             modelBuilder.Entity<Favorito>()
                 .HasKey(f => new { f.IdPesqueiro, f.IdCliente });
+            modelBuilder.Entity<Funcionario>()
+                .HasOne(f => f.Pesqueiro) // Um funcionário tem um pesqueiro
+                .WithMany(p => p.Funcionarios) // Um pesqueiro pode ter muitos funcionários
+                .HasForeignKey(f => f.IdPesqueiro); // A chave estrangeira é IdPesqueiro
         }
     }
 }
