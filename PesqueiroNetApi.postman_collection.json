@@ -1,127 +1,373 @@
 {
-  "info": {
-    "name": "PesqueiroNetApi",
-    "_postman_id": "12345678-abcd-1234-abcd-1234567890ab",
-    "description": "Coleção de testes para todos os endpoints da API PesqueiroNetApi",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Cliente",
-      "item": [
-        {
-          "name": "Get All Clientes",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": { "raw": "http://localhost:5000/api/Cliente", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "Cliente"] }
-          }
-        },
-        {
-          "name": "Get Cliente by ID",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": { "raw": "http://localhost:5000/api/Cliente/1", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "Cliente", "1"] }
-          }
-        },
-        {
-          "name": "Create Cliente",
-          "request": {
-            "method": "POST",
-            "header": [{"key":"Content-Type","value":"application/json"}],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nomeCliente\": \"João\",\n  \"emailCliente\": \"joao@email.com\",\n  \"senhaCliente\": \"123\"\n}"
-            },
-            "url": { "raw": "http://localhost:5000/api/Cliente", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "Cliente"] }
-          }
-        },
-        {
-          "name": "Update Cliente",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {"key":"Content-Type","value":"application/json"},
-              {"key":"Authorization","value":"Bearer <token>"}
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nomeCliente\": \"João Atualizado\",\n  \"senhaCliente\": \"novaSenha\"\n}"
-            },
-            "url": { "raw": "http://localhost:5000/api/Cliente/1", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "Cliente", "1"] }
-          }
-        },
-        {
-          "name": "Delete Cliente",
-          "request": {
-            "method": "DELETE",
-            "header": [{"key":"Authorization","value":"Bearer <token>"}],
-            "url": { "raw": "http://localhost:5000/api/Cliente/1", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "Cliente", "1"] }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Equipamento",
-      "item": [
-        {
-          "name": "Get All Equipamentos",
-          "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:5000/api/Equipamento", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "Equipamento"] } }
-        },
-        {
-          "name": "Create Equipamento",
-          "request": {
-            "method": "POST",
-            "header": [
-              {"key":"Content-Type","value":"application/json"},
-              {"key":"Authorization","value":"Bearer <token>"}
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nomeEquipamento\": \"Rede\",\n  \"quantidadeEquipamento\": 10,\n  \"equipamentoEmUso\": false\n}"
-            },
-            "url": { "raw": "http://localhost:5000/api/Equipamento", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "Equipamento"] }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Funcionario",
-      "item": [
-        {
-          "name": "Create Funcionario",
-          "request": {
-            "method": "POST",
-            "header": [{"key":"Content-Type","value":"application/json"}],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nomeFuncionario\": \"Ana\",\n  \"senhaFuncionario\": \"123\"\n}"
-            },
-            "url": { "raw": "http://localhost:5000/api/Funcionario", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "Funcionario"] }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Auth",
-      "item": [
-        {
-          "name": "Login Cliente",
-          "request": {
-            "method": "POST",
-            "header": [{"key":"Content-Type","value":"application/x-www-form-urlencoded"}],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                { "key": "email", "value": "teste@teste.com" },
-                { "key": "senha", "value": "123" }
-              ]
-            },
-            "url": { "raw": "http://localhost:5000/api/Auth/login-cliente", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "Auth", "login-cliente"] }
-          }
-        }
-      ]
-    }
-  ]
+	"info": {
+		"_postman_id": "abc13b18-56b8-4b50-add0-78a9885afb6b",
+		"name": "PesqueiroNetApi",
+		"description": "Coleção de testes para todos os endpoints da API PesqueiroNetApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30410471"
+	},
+	"item": [
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "Comentarios",
+					"item": [
+						{
+							"name": "Create Comentario",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Listar Comentarios",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Ediatr comentario",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get All Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Cliente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cliente by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Cliente/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nomeCliente\": \"João\",\n  \"emailCliente\": \"joao@email.com\",\n  \"senhaCliente\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Cliente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cliente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nomeCliente\": \"João Atualizado\",\n  \"senhaCliente\": \"novaSenha\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Cliente/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Cliente",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/Cliente/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Cliente",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Equipamento",
+			"item": [
+				{
+					"name": "Get All Equipamentos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/Equipamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Equipamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Equipamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer <token>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nomeEquipamento\": \"Rede\",\n  \"quantidadeEquipamento\": 10,\n  \"equipamentoEmUso\": false\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Equipamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Equipamento"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Funcionario",
+			"item": [
+				{
+					"name": "Create Funcionario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nomeFuncionario\": \"Ana\",\n  \"senhaFuncionario\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Funcionario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Funcionario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualiza funcionario",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM="
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "joao@email.com"
+								},
+								{
+									"key": "senha",
+									"value": "123"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Auth/login-cliente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Auth",
+								"login-cliente"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pesqueiro",
+			"item": [
+				{
+					"name": "Create Pesqueiro",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get pesqueiro por Id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Pesqueiro",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "http://localhost:5000",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Nome\": \"Lago Azul Premium\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		}
+	]
 }
