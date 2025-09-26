@@ -19,6 +19,7 @@ namespace PesqueiroNetApi.Data
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Pesqueiro> Pesqueiros { get; set; }
 
+
         // tabelas associativas
         public DbSet<Gerencia> Gerencias { get; set; }
         public DbSet<AluguelCliente> AlugueisClientes { get; set; }

@@ -31,13 +31,15 @@ namespace PesqueiroNetApi.Controllers
             return Ok(new { token });
         }
 
+        public class LoginDto { public string Nome { get; set; } = ""; public string Senha { get; set; } = ""; }
+
         [HttpPost("login-funcionario")]
-        public async Task<IActionResult> LoginFuncionario([FromForm] string nome, [FromForm] string senha)
+        public async Task<IActionResult> LoginFuncionario([FromBody] LoginDto model)
         {
-            var func = await _db.Funcionarios.FirstOrDefaultAsync(f => f.NomeFuncionario == nome);
+            var func = await _db.Funcionarios.FirstOrDefaultAsync(f => f.NomeFuncionario == model.Nome);
             if (func == null) return Unauthorized(new { message = "Funcionário não encontrado" });
 
-            if (!_crypto.VerificarSenha(senha, func.SenhaFuncionario)) return Unauthorized(new { message = "Senha inválida" });
+            if (!_crypto.VerificarSenha(model.Senha, func.SenhaFuncionario)) return Unauthorized(new { message = "Senha inválida" });
 
             var token = _crypto.GerarToken(func.IdFuncionario.ToString(), "Funcionario");
             return Ok(new { token });

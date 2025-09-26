@@ -5,6 +5,8 @@ using PesqueiroNetApi.Data;
 using PesqueiroNetApi.Entities;
 using System.Security.Claims;
 
+
+
 namespace PesqueiroNetApi.Controllers
 {
     [ApiController]

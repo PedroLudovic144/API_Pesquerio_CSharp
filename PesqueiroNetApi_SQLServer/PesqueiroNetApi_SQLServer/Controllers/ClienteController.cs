@@ -44,7 +44,7 @@ namespace PesqueiroNetApi.Controllers
         }
 
         [HttpPut("{id:int}")]
-        [Authorize]
+        
         public async Task<IActionResult> Update(int id, [FromBody] Cliente cliente)
         {
             var existing = await _db.Clientes.FindAsync(id);
@@ -117,14 +117,12 @@ namespace PesqueiroNetApi.Controllers
         [HttpPost("{clienteId:int}/comentar/{pesqueiroId:int}")]
         public async Task<IActionResult> Comentar(int clienteId, int pesqueiroId, [FromBody] string texto)
         {
-            // verifica se cliente e pesqueiro existem
-            var cliente = await _db.Clientes.FindAsync(clienteId);
-            var pesqueiro = await _db.Pesqueiros.FindAsync(pesqueiroId);
+            var cliente = await _db.Clientes.FirstOrDefaultAsync(c => c.IdCliente == clienteId);
+            var pesqueiro = await _db.Pesqueiros.FirstOrDefaultAsync(p => p.IdPesqueiro == pesqueiroId);
 
             if (cliente == null || pesqueiro == null)
                 return NotFound("Cliente ou Pesqueiro não encontrado.");
 
-            // cria o comentário
             var comentario = new Comentario
             {
                 Texto = texto,
@@ -135,7 +133,6 @@ namespace PesqueiroNetApi.Controllers
             _db.Comentarios.Add(comentario);
             await _db.SaveChangesAsync();
 
-            // cria o vínculo do cliente com o comentário
             var clienteComentario = new ClienteComentario
             {
                 IdCliente = clienteId,
@@ -158,6 +155,7 @@ namespace PesqueiroNetApi.Controllers
                 }
             });
         }
+
 
         // GET api/cliente/pesqueiro/{pesqueiroId}/comentarios
         [HttpGet("pesqueiro/{pesqueiroId:int}/comentarios")]
@@ -184,8 +182,9 @@ namespace PesqueiroNetApi.Controllers
         public async Task<IActionResult> EditarComentario(int clienteId, int comentarioId, [FromBody] string novoTexto)
         {
             var comentario = await _db.Comentarios
-                .Include(c => c.ClienteComentarios!)
+                .Include(c => c.ClienteComentarios)
                 .FirstOrDefaultAsync(c => c.IdComentario == comentarioId);
+
 
             if (comentario == null)
                 return NotFound("Comentário não encontrado.");
@@ -225,5 +224,34 @@ namespace PesqueiroNetApi.Controllers
 
             return Ok("Comentário deletado com sucesso!");
         }
+
+
+
+
+/*
+        [HttpDelete("{id:int}")]
+public async Task<IActionResult> Delete(int id)
+{
+    var cliente = await _db.Clientes
+        .Include(c => c.Favoritos)
+        .Include(c => c.ClienteComentarios)
+        .FirstOrDefaultAsync(c => c.IdCliente == id);
+
+    if (cliente == null)
+        return NotFound("Cliente não encontrado.");
+
+    // Remove relacionamentos
+    if (cliente.Favoritos != null)
+        _db.Favoritos.RemoveRange(cliente.Favoritos);
+
+    if (cliente.ClienteComentarios != null)
+        _db.ClientesComentarios.RemoveRange(cliente.ClienteComentarios);
+
+    // Remove o cliente
+    _db.Clientes.Remove(cliente);
+    await _db.SaveChangesAsync();
+
+    return Ok("Cliente deletado com sucesso!");
+}*/
     }
 }

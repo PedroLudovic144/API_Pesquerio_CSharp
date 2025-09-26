@@ -47,7 +47,7 @@ namespace PesqueiroNetApi.Migrations
                     IdEquipamentos = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeEquipamento = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EquipamentoEmUso = table.Column<bool>(type: "bit", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     QuantidadeEquipamento = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -68,20 +68,6 @@ namespace PesqueiroNetApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Especies", x => x.IdEspecie);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Funcionarios",
-                columns: table => new
-                {
-                    IdFuncionario = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeFuncionario = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SenhaFuncionario = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Funcionarios", x => x.IdFuncionario);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,29 +149,6 @@ namespace PesqueiroNetApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Alugueis",
-                columns: table => new
-                {
-                    IdAluguel = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ValorAluguel = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DataHoraRetirada = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataHoraDevolucao = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Observacao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdEquipamentos = table.Column<int>(type: "int", nullable: false),
-                    EquipamentoIdEquipamentos = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Alugueis", x => x.IdAluguel);
-                    table.ForeignKey(
-                        name: "FK_Alugueis_Equipamentos_EquipamentoIdEquipamentos",
-                        column: x => x.EquipamentoIdEquipamentos,
-                        principalTable: "Equipamentos",
-                        principalColumn: "IdEquipamentos");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PeixesCapturados",
                 columns: table => new
                 {
@@ -204,30 +167,6 @@ namespace PesqueiroNetApi.Migrations
                         column: x => x.EspecieIdEspecie,
                         principalTable: "Especies",
                         principalColumn: "IdEspecie");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Gerencias",
-                columns: table => new
-                {
-                    IdFuncionario = table.Column<int>(type: "int", nullable: false),
-                    IdEquipamentos = table.Column<int>(type: "int", nullable: false),
-                    FuncionarioIdFuncionario = table.Column<int>(type: "int", nullable: true),
-                    EquipamentoIdEquipamentos = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Gerencias", x => new { x.IdFuncionario, x.IdEquipamentos });
-                    table.ForeignKey(
-                        name: "FK_Gerencias_Equipamentos_EquipamentoIdEquipamentos",
-                        column: x => x.EquipamentoIdEquipamentos,
-                        principalTable: "Equipamentos",
-                        principalColumn: "IdEquipamentos");
-                    table.ForeignKey(
-                        name: "FK_Gerencias_Funcionarios_FuncionarioIdFuncionario",
-                        column: x => x.FuncionarioIdFuncionario,
-                        principalTable: "Funcionarios",
-                        principalColumn: "IdFuncionario");
                 });
 
             migrationBuilder.CreateTable(
@@ -263,6 +202,7 @@ namespace PesqueiroNetApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Texto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Avaliacao = table.Column<int>(type: "int", nullable: false),
+                    DataComentario = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdPesqueiro = table.Column<int>(type: "int", nullable: false),
                     PesqueiroIdPesqueiro = table.Column<int>(type: "int", nullable: true)
                 },
@@ -301,27 +241,24 @@ namespace PesqueiroNetApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AlugueisClientes",
+                name: "Funcionarios",
                 columns: table => new
                 {
-                    IdCliente = table.Column<int>(type: "int", nullable: false),
-                    IdAluguel = table.Column<int>(type: "int", nullable: false),
-                    ClienteIdCliente = table.Column<int>(type: "int", nullable: true),
-                    AluguelIdAluguel = table.Column<int>(type: "int", nullable: true)
+                    IdFuncionario = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeFuncionario = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SenhaFuncionario = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdPesqueiro = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AlugueisClientes", x => new { x.IdCliente, x.IdAluguel });
+                    table.PrimaryKey("PK_Funcionarios", x => x.IdFuncionario);
                     table.ForeignKey(
-                        name: "FK_AlugueisClientes_Alugueis_AluguelIdAluguel",
-                        column: x => x.AluguelIdAluguel,
-                        principalTable: "Alugueis",
-                        principalColumn: "IdAluguel");
-                    table.ForeignKey(
-                        name: "FK_AlugueisClientes_Clientes_ClienteIdCliente",
-                        column: x => x.ClienteIdCliente,
-                        principalTable: "Clientes",
-                        principalColumn: "IdCliente");
+                        name: "FK_Funcionarios_Pesqueiros_IdPesqueiro",
+                        column: x => x.IdPesqueiro,
+                        principalTable: "Pesqueiros",
+                        principalColumn: "IdPesqueiro",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -372,10 +309,95 @@ namespace PesqueiroNetApi.Migrations
                         principalColumn: "IdComentario");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Alugueis",
+                columns: table => new
+                {
+                    IdAluguel = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ValorAluguel = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DataHoraRetirada = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataHoraDevolucao = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Observacao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quantidade = table.Column<int>(type: "int", nullable: false),
+                    IdEquipamento = table.Column<int>(type: "int", nullable: false),
+                    EquipamentoIdEquipamentos = table.Column<int>(type: "int", nullable: true),
+                    IdFuncionario = table.Column<int>(type: "int", nullable: false),
+                    FuncionarioIdFuncionario = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alugueis", x => x.IdAluguel);
+                    table.ForeignKey(
+                        name: "FK_Alugueis_Equipamentos_EquipamentoIdEquipamentos",
+                        column: x => x.EquipamentoIdEquipamentos,
+                        principalTable: "Equipamentos",
+                        principalColumn: "IdEquipamentos");
+                    table.ForeignKey(
+                        name: "FK_Alugueis_Funcionarios_FuncionarioIdFuncionario",
+                        column: x => x.FuncionarioIdFuncionario,
+                        principalTable: "Funcionarios",
+                        principalColumn: "IdFuncionario");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Gerencias",
+                columns: table => new
+                {
+                    IdFuncionario = table.Column<int>(type: "int", nullable: false),
+                    IdEquipamentos = table.Column<int>(type: "int", nullable: false),
+                    FuncionarioIdFuncionario = table.Column<int>(type: "int", nullable: true),
+                    EquipamentoIdEquipamentos = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Gerencias", x => new { x.IdFuncionario, x.IdEquipamentos });
+                    table.ForeignKey(
+                        name: "FK_Gerencias_Equipamentos_EquipamentoIdEquipamentos",
+                        column: x => x.EquipamentoIdEquipamentos,
+                        principalTable: "Equipamentos",
+                        principalColumn: "IdEquipamentos");
+                    table.ForeignKey(
+                        name: "FK_Gerencias_Funcionarios_FuncionarioIdFuncionario",
+                        column: x => x.FuncionarioIdFuncionario,
+                        principalTable: "Funcionarios",
+                        principalColumn: "IdFuncionario");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AlugueisClientes",
+                columns: table => new
+                {
+                    IdCliente = table.Column<int>(type: "int", nullable: false),
+                    IdAluguel = table.Column<int>(type: "int", nullable: false),
+                    ClienteIdCliente = table.Column<int>(type: "int", nullable: true),
+                    AluguelIdAluguel = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlugueisClientes", x => new { x.IdCliente, x.IdAluguel });
+                    table.ForeignKey(
+                        name: "FK_AlugueisClientes_Alugueis_AluguelIdAluguel",
+                        column: x => x.AluguelIdAluguel,
+                        principalTable: "Alugueis",
+                        principalColumn: "IdAluguel");
+                    table.ForeignKey(
+                        name: "FK_AlugueisClientes_Clientes_ClienteIdCliente",
+                        column: x => x.ClienteIdCliente,
+                        principalTable: "Clientes",
+                        principalColumn: "IdCliente");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Alugueis_EquipamentoIdEquipamentos",
                 table: "Alugueis",
                 column: "EquipamentoIdEquipamentos");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Alugueis_FuncionarioIdFuncionario",
+                table: "Alugueis",
+                column: "FuncionarioIdFuncionario");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AlugueisClientes_AluguelIdAluguel",
@@ -431,6 +453,11 @@ namespace PesqueiroNetApi.Migrations
                 name: "IX_Favoritos_PesqueiroIdPesqueiro",
                 table: "Favoritos",
                 column: "PesqueiroIdPesqueiro");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Funcionarios_IdPesqueiro",
+                table: "Funcionarios",
+                column: "IdPesqueiro");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Gerencias_EquipamentoIdEquipamentos",
@@ -500,9 +527,6 @@ namespace PesqueiroNetApi.Migrations
                 name: "Lagos");
 
             migrationBuilder.DropTable(
-                name: "Funcionarios");
-
-            migrationBuilder.DropTable(
                 name: "Clientes");
 
             migrationBuilder.DropTable(
@@ -515,10 +539,13 @@ namespace PesqueiroNetApi.Migrations
                 name: "Equipamentos");
 
             migrationBuilder.DropTable(
-                name: "Pesqueiros");
+                name: "Funcionarios");
 
             migrationBuilder.DropTable(
                 name: "Especies");
+
+            migrationBuilder.DropTable(
+                name: "Pesqueiros");
         }
     }
 }

@@ -12,8 +12,8 @@ using PesqueiroNetApi.Data;
 namespace PesqueiroNetApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250831220012_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250926014238_FixComentario")]
+    partial class FixComentario
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,11 +42,23 @@ namespace PesqueiroNetApi.Migrations
                     b.Property<int?>("EquipamentoIdEquipamentos")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdEquipamentos")
+                    b.Property<int?>("FuncionarioIdFuncionario")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEquipamento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdFuncionario")
                         .HasColumnType("int");
 
                     b.Property<string>("Observacao")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("ValorAluguel")
                         .HasColumnType("decimal(18,2)");
@@ -54,6 +66,8 @@ namespace PesqueiroNetApi.Migrations
                     b.HasKey("IdAluguel");
 
                     b.HasIndex("EquipamentoIdEquipamentos");
+
+                    b.HasIndex("FuncionarioIdFuncionario");
 
                     b.ToTable("Alugueis");
                 });
@@ -137,6 +151,9 @@ namespace PesqueiroNetApi.Migrations
                     b.Property<int>("Avaliacao")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DataComentario")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("IdPesqueiro")
                         .HasColumnType("int");
 
@@ -203,13 +220,13 @@ namespace PesqueiroNetApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEquipamentos"));
 
-                    b.Property<bool>("EquipamentoEmUso")
-                        .HasColumnType("bit");
-
                     b.Property<string>("NomeEquipamento")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("QuantidadeEquipamento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("IdEquipamentos");
@@ -296,6 +313,9 @@ namespace PesqueiroNetApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdFuncionario"));
 
+                    b.Property<int>("IdPesqueiro")
+                        .HasColumnType("int");
+
                     b.Property<string>("NomeFuncionario")
                         .HasColumnType("nvarchar(max)");
 
@@ -303,6 +323,8 @@ namespace PesqueiroNetApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdFuncionario");
+
+                    b.HasIndex("IdPesqueiro");
 
                     b.ToTable("Funcionarios");
                 });
@@ -466,13 +488,19 @@ namespace PesqueiroNetApi.Migrations
                         .WithMany("Alugueis")
                         .HasForeignKey("EquipamentoIdEquipamentos");
 
+                    b.HasOne("PesqueiroNetApi.Entities.Funcionario", "Funcionario")
+                        .WithMany()
+                        .HasForeignKey("FuncionarioIdFuncionario");
+
                     b.Navigation("Equipamento");
+
+                    b.Navigation("Funcionario");
                 });
 
             modelBuilder.Entity("PesqueiroNetApi.Entities.AluguelCliente", b =>
                 {
                     b.HasOne("PesqueiroNetApi.Entities.Aluguel", "Aluguel")
-                        .WithMany("AluguelClientes")
+                        .WithMany()
                         .HasForeignKey("AluguelIdAluguel");
 
                     b.HasOne("PesqueiroNetApi.Entities.Cliente", "Cliente")
@@ -553,6 +581,17 @@ namespace PesqueiroNetApi.Migrations
                     b.Navigation("Pesqueiro");
                 });
 
+            modelBuilder.Entity("PesqueiroNetApi.Entities.Funcionario", b =>
+                {
+                    b.HasOne("PesqueiroNetApi.Entities.Pesqueiro", "Pesqueiro")
+                        .WithMany("Funcionarios")
+                        .HasForeignKey("IdPesqueiro")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pesqueiro");
+                });
+
             modelBuilder.Entity("PesqueiroNetApi.Entities.Gerencia", b =>
                 {
                     b.HasOne("PesqueiroNetApi.Entities.Equipamento", "Equipamento")
@@ -599,11 +638,6 @@ namespace PesqueiroNetApi.Migrations
                         .HasForeignKey("CompraIdCompra");
 
                     b.Navigation("Compra");
-                });
-
-            modelBuilder.Entity("PesqueiroNetApi.Entities.Aluguel", b =>
-                {
-                    b.Navigation("AluguelClientes");
                 });
 
             modelBuilder.Entity("PesqueiroNetApi.Entities.Cliente", b =>
@@ -665,6 +699,8 @@ namespace PesqueiroNetApi.Migrations
                     b.Navigation("Comentarios");
 
                     b.Navigation("Favoritos");
+
+                    b.Navigation("Funcionarios");
                 });
 #pragma warning restore 612, 618
         }

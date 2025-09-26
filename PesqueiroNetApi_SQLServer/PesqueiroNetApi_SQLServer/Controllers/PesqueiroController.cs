@@ -10,14 +10,14 @@ using PesqueiroNetApi.Entities;
 namespace PesqueiroNetApi_SQLServer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[Controller]")]
     public class PesqueiroController : ControllerBase
     {
         private readonly AppDbContext _context;
 
         public PesqueiroController(AppDbContext context)
         {
-            _context = context;
+           _context = context;
         }
 
         [HttpPost("cadastrar-pesqueiro")]

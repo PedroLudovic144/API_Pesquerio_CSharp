@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PesqueiroNetApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+34fe9bd3339e7c4bc22c617c930f8226041658b0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6a59e014aaa6819b9ea4222e7e7c8bd68ba6698b")]
 [assembly: System.Reflection.AssemblyProductAttribute("PesqueiroNetApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PesqueiroNetApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

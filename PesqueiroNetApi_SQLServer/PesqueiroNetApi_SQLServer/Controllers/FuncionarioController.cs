@@ -21,11 +21,9 @@ namespace PesqueiroNetApi.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> GetAll() => Ok(await _db.Funcionarios.ToListAsync());
 
         [HttpGet("{id:int}")]
-        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> GetById(int id)
         {
             var f = await _db.Funcionarios.FindAsync(id);
@@ -33,34 +31,53 @@ namespace PesqueiroNetApi.Controllers
             return Ok(f);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Funcionario funcionario)
+        // DTO para criar funcionário
+        public class FuncionarioCreateDto
         {
-            if (!string.IsNullOrEmpty(funcionario.SenhaFuncionario))
-                funcionario.SenhaFuncionario = _crypto.HashSenha(funcionario.SenhaFuncionario);
+            public string NomeFuncionario { get; set; } = "";
+            public string SenhaFuncionario { get; set; } = "";
+            public int IdPesqueiro { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] FuncionarioCreateDto model)
+        {
+            if (string.IsNullOrEmpty(model.NomeFuncionario) || string.IsNullOrEmpty(model.SenhaFuncionario))
+                return BadRequest(new { message = "Nome e senha são obrigatórios" });
+
+            var pesqueiro = await _db.Pesqueiros.FindAsync(model.IdPesqueiro);
+            if (pesqueiro == null) return BadRequest(new { message = "Pesqueiro não existe" });
+
+            var funcionario = new Funcionario
+            {
+                NomeFuncionario = model.NomeFuncionario,
+                SenhaFuncionario = _crypto.HashSenha(model.SenhaFuncionario),
+                IdPesqueiro = model.IdPesqueiro
+            };
 
             _db.Funcionarios.Add(funcionario);
             await _db.SaveChangesAsync();
+
             return CreatedAtAction(nameof(GetById), new { id = funcionario.IdFuncionario }, funcionario);
         }
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "Funcionario")]
-        public async Task<IActionResult> Update(int id, [FromBody] Funcionario funcionario)
+        public async Task<IActionResult> Update(int id, [FromBody] FuncionarioCreateDto model)
         {
             var existing = await _db.Funcionarios.FindAsync(id);
             if (existing == null) return NotFound();
 
-            existing.NomeFuncionario = funcionario.NomeFuncionario ?? existing.NomeFuncionario;
-            if (!string.IsNullOrEmpty(funcionario.SenhaFuncionario))
-                existing.SenhaFuncionario = _crypto.HashSenha(funcionario.SenhaFuncionario);
+            if (!string.IsNullOrEmpty(model.NomeFuncionario))
+                existing.NomeFuncionario = model.NomeFuncionario;
+
+            if (!string.IsNullOrEmpty(model.SenhaFuncionario))
+                existing.SenhaFuncionario = _crypto.HashSenha(model.SenhaFuncionario);
 
             await _db.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> Delete(int id)
         {
             var existing = await _db.Funcionarios.FindAsync(id);

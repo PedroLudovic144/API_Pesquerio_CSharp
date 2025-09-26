@@ -23,13 +23,21 @@ namespace PesqueiroNetApi.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var e = await _db.Equipamentos.FindAsync(id);
+            var e = await _db.Equipamentos
+                .Where(x => x.IdEquipamentos == id)
+                .Select(x => new {
+                    x.IdEquipamentos,
+                    x.NomeEquipamento,
+                    x.Status,
+                    x.QuantidadeEquipamento
+                })
+                .FirstOrDefaultAsync();
+
             if (e == null) return NotFound();
             return Ok(e);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> Create([FromBody] Equipamento equipamento)
         {
             _db.Equipamentos.Add(equipamento);
@@ -38,7 +46,6 @@ namespace PesqueiroNetApi.Controllers
         }
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> Update(int id, [FromBody] Equipamento equipamento)
         {
             var existing = await _db.Equipamentos.FindAsync(id);
@@ -69,7 +76,6 @@ namespace PesqueiroNetApi.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> Delete(int id)
         {
             var existing = await _db.Equipamentos.FindAsync(id);
@@ -80,7 +86,6 @@ namespace PesqueiroNetApi.Controllers
         }
         // PATCH api/equipamento/{id}/status
         [HttpPatch("{id:int}/status")]
-        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> AlterarStatus(int id, [FromBody] StatusEquipamento novoStatus)
         {
             var equipamento = await _db.Equipamentos.FindAsync(id);
