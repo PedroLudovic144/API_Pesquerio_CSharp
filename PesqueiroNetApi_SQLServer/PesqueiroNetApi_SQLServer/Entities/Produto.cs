@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace PesqueiroNetApi.Entities
 {
     public class Produto
@@ -10,5 +12,9 @@ namespace PesqueiroNetApi.Entities
 
         public int? IdCompra { get; set; }
         public Compra? Compra { get; set; }
+        public int IdPesqueiro { get; set; }
+        
+        [JsonIgnore]
+        public Pesqueiro? Pesqueiro { get; set; }
     }
 }

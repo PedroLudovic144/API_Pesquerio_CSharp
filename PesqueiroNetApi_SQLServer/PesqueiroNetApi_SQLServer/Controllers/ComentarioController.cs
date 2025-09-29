@@ -14,7 +14,7 @@ namespace PesqueiroNetApi_SQLServer.Controllers
     {
         private readonly AppDbContext _db;
 
-        public VendasController(AppDbContext db)
+        public ComentarioController(AppDbContext db)
         {
            _db = db;
         }

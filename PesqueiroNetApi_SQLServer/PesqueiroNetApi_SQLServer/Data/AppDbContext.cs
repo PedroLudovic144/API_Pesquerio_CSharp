@@ -67,10 +67,17 @@ namespace PesqueiroNetApi.Data
 
             modelBuilder.Entity<Favorito>()
                 .HasKey(f => new { f.IdPesqueiro, f.IdCliente });
+
+            modelBuilder.Entity<Produto>()
+                .HasOne(p => p.Pesqueiro)        
+                .WithMany(pe => pe.Produtos)      
+                .HasForeignKey(p => p.IdPesqueiro); 
+
+
             modelBuilder.Entity<Funcionario>()
-                .HasOne(f => f.Pesqueiro) // Um funcionário tem um pesqueiro
-                .WithMany(p => p.Funcionarios) // Um pesqueiro pode ter muitos funcionários
-                .HasForeignKey(f => f.IdPesqueiro); // A chave estrangeira é IdPesqueiro
+                .HasOne(f => f.Pesqueiro)
+                .WithMany(p => p.Funcionarios) 
+                .HasForeignKey(f => f.IdPesqueiro); 
         }
     }
 }

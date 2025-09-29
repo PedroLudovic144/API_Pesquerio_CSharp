@@ -13,5 +13,7 @@ namespace PesqueiroNetApi.Entities
         public ICollection<Comentario>? Comentarios { get; set; }
         public ICollection<Favorito>? Favoritos { get; set; }
         public ICollection<Funcionario>? Funcionarios { get; set; }
+        public ICollection<Produto>? Produtos { get; set; }
+
     }
 }

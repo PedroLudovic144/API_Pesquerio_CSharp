@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PesqueiroNetApi.Data;
 
@@ -11,9 +12,11 @@ using PesqueiroNetApi.Data;
 namespace PesqueiroNetApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250929230413_fixProdutos")]
+    partial class fixProdutos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -469,6 +472,9 @@ namespace PesqueiroNetApi.Migrations
                     b.Property<string>("NomeProduto")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PesqueiroIdPesqueiro")
+                        .HasColumnType("int");
+
                     b.Property<int>("QtdProduto")
                         .HasColumnType("int");
 
@@ -479,7 +485,7 @@ namespace PesqueiroNetApi.Migrations
 
                     b.HasIndex("CompraIdCompra");
 
-                    b.HasIndex("IdPesqueiro");
+                    b.HasIndex("PesqueiroIdPesqueiro");
 
                     b.ToTable("Produtos");
                 });
@@ -641,7 +647,7 @@ namespace PesqueiroNetApi.Migrations
 
                     b.HasOne("PesqueiroNetApi.Entities.Pesqueiro", "Pesqueiro")
                         .WithMany("Produtos")
-                        .HasForeignKey("IdPesqueiro")
+                        .HasForeignKey("PesqueiroIdPesqueiro")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

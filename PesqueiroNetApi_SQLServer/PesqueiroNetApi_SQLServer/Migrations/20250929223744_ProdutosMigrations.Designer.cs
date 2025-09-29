@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PesqueiroNetApi.Data;
 
@@ -11,9 +12,11 @@ using PesqueiroNetApi.Data;
 namespace PesqueiroNetApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250929223744_ProdutosMigrations")]
+    partial class ProdutosMigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -463,9 +466,6 @@ namespace PesqueiroNetApi.Migrations
                     b.Property<int?>("IdCompra")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdPesqueiro")
-                        .HasColumnType("int");
-
                     b.Property<string>("NomeProduto")
                         .HasColumnType("nvarchar(max)");
 
@@ -478,8 +478,6 @@ namespace PesqueiroNetApi.Migrations
                     b.HasKey("IdProduto");
 
                     b.HasIndex("CompraIdCompra");
-
-                    b.HasIndex("IdPesqueiro");
 
                     b.ToTable("Produtos");
                 });
@@ -639,15 +637,7 @@ namespace PesqueiroNetApi.Migrations
                         .WithMany("Produtos")
                         .HasForeignKey("CompraIdCompra");
 
-                    b.HasOne("PesqueiroNetApi.Entities.Pesqueiro", "Pesqueiro")
-                        .WithMany("Produtos")
-                        .HasForeignKey("IdPesqueiro")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Compra");
-
-                    b.Navigation("Pesqueiro");
                 });
 
             modelBuilder.Entity("PesqueiroNetApi.Entities.Cliente", b =>
@@ -711,8 +701,6 @@ namespace PesqueiroNetApi.Migrations
                     b.Navigation("Favoritos");
 
                     b.Navigation("Funcionarios");
-
-                    b.Navigation("Produtos");
                 });
 #pragma warning restore 612, 618
         }
