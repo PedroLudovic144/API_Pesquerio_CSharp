@@ -9,7 +9,6 @@ namespace PesqueiroNetApi.Entities
 
         public ICollection<AluguelCliente>? AluguelClientes { get; set; }
         public ICollection<CompraCliente>? CompraClientes { get; set; }
-        public ICollection<PeixeCliente>? PeixeClientes { get; set; }
         public ICollection<ClienteComentario>? ClienteComentarios { get; set; }
         public ICollection<Favorito>? Favoritos { get; set; }
     }

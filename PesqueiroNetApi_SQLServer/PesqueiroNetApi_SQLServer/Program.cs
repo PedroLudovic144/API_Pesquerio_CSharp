@@ -7,6 +7,7 @@ using PesqueiroNetApi.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Serviços
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -40,6 +41,7 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+// Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -7,7 +7,7 @@ namespace PesqueiroNetApi.Entities
         public decimal ValorEspecie { get; set; }
         public string? FornecedorEspecie { get; set; }
 
-        public ICollection<PeixeCapturado>? PeixesCapturados { get; set; }
+        public ICollection<Peixe>? PeixesCapturados { get; set; }
         public ICollection<EspecieLago>? EspecieLagos { get; set; }
     }
 }

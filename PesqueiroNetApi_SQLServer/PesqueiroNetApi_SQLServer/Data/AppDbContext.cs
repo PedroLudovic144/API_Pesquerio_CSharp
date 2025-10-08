@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PesqueiroNetApi.Entities;
+using System.IO.Pipelines;
 
 namespace PesqueiroNetApi.Data
 {
@@ -13,8 +14,8 @@ namespace PesqueiroNetApi.Data
         public DbSet<Aluguel> Alugueis { get; set; }
         public DbSet<Compra> Compras { get; set; }
         public DbSet<Produto> Produtos { get; set; }
-        public DbSet<PeixeCapturado> PeixesCapturados { get; set; }
-        public DbSet<Lago> Lagos { get; set; }
+        public DbSet<Peixe> Peixe { get; set; }
+        public DbSet<Lago> Lago { get; set; }
         public DbSet<Especie> Especies { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Pesqueiro> Pesqueiros { get; set; }
@@ -24,7 +25,6 @@ namespace PesqueiroNetApi.Data
         public DbSet<Gerencia> Gerencias { get; set; }
         public DbSet<AluguelCliente> AlugueisClientes { get; set; }
         public DbSet<CompraCliente> ComprasClientes { get; set; }
-        public DbSet<PeixeCliente> PeixesClientes { get; set; }
         public DbSet<EspecieLago> EspeciesLagos { get; set; }
         public DbSet<ClienteComentario> ClientesComentarios { get; set; }
         public DbSet<Favorito> Favoritos { get; set; }
@@ -40,7 +40,7 @@ namespace PesqueiroNetApi.Data
             modelBuilder.Entity<Aluguel>().HasKey(a => a.IdAluguel);
             modelBuilder.Entity<Compra>().HasKey(c => c.IdCompra);
             modelBuilder.Entity<Produto>().HasKey(p => p.IdProduto);
-            modelBuilder.Entity<PeixeCapturado>().HasKey(p => p.IdPeixeCapturado);
+            modelBuilder.Entity<Peixe>().HasKey(p => p.IdPeixe);
             modelBuilder.Entity<Lago>().HasKey(l => l.IdLago);
             modelBuilder.Entity<Especie>().HasKey(e => e.IdEspecie);
             modelBuilder.Entity<Comentario>().HasKey(c => c.IdComentario);
@@ -56,8 +56,6 @@ namespace PesqueiroNetApi.Data
             modelBuilder.Entity<CompraCliente>()
                 .HasKey(cc => new { cc.IdCliente, cc.IdCompra });
 
-            modelBuilder.Entity<PeixeCliente>()
-                .HasKey(pc => new { pc.IdCliente, pc.IdPeixeCapturado });
 
             modelBuilder.Entity<EspecieLago>()
                 .HasKey(el => new { el.IdEspecie, el.IdLago });
